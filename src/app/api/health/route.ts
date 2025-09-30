@@ -10,7 +10,8 @@ export async function GET() {
     await db.command({ ping: 1 });
 
     return NextResponse.json({ ok: true, message: "MongoDB connected successfully ✅" });
-  } catch (err: any) {
-    return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+    return NextResponse.json({ ok: false, error: errorMessage }, { status: 500 });
   }
 }
